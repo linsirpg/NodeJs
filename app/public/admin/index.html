@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/public/admin/css/weui.min.css" />
+    <link rel="stylesheet" href="/public/admin/css/example.css" />
+    <link rel="stylesheet" href="/public/admin/css/index.css?a=18" />
+    <link rel="stylesheet" href="/public/admin/css/toast.css?a=12" />
+    <script src='http://res.wx.qq.com/open/js/jweixin-1.2.0.js'></script>
+    <link href="/public/admin/css/cityLayout.css?a=19" type="text/css" rel="stylesheet">
+    <script src='/public/admin/js/jquery-3.2.1.js'></script>
+    <script src="/public/admin/js/cityselect.js?a=222"></script>
+    <script src="/public/admin/js/toast.js?"></script>
+    <title>中华好少年国学故事盛典</title>
+    <script>
+        function adaptation() {
+            var html = document.documentElement;
+            var W = html.getBoundingClientRect().width;
+
+            html.style.fontSize = W / 16 + 'px';
+        }
+        adaptation()
+    </script>
+    <style>
+        @keyframes move {
+            25% {
+                transform: translateZ(5px)
+            }
+            50% {
+                transform: translateZ(0px)
+            }
+            50% {
+                transform: translateZ(-5px)
+            }
+            100% {
+                transform: translateZ(0px)
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <audio src="" id='audio' preload>
+    </audio>
+    <div class='container' style='background: no-repeat 0 0;background-size:100% 100%;'>
+        <div class='content'>
+            <input class="weui-input" id='UserName' type="text" placeholder="" />
+            <input class="weui-input" id='UserAge' type="tel" placeholder="" />
+            <input class="weui-input" id='UserAddress' type="text" class="city_input" value="" readonly="readonly" />
+            <input class="weui-input" id='phone' type="tel" placeholder="" />
+            <input class="weui-input" id='storyName' type="text" placeholder="" />
+            <a href="javascript:;" id="Btn" class="weui-btn weui-btn_plain-primary" style="display:none;">
+                <div id='start'>按住开始录音 (60s)</div>
+                <div id='load' style='width:100%;height:100%;position:relative;display:none;'>
+                    <img id='img1' src="/public/admin/images/bf.png">
+                    <span id="ms"></span>
+                </div>
+            </a>
+            <input class="weui-input" id='originName' type="text" placeholder="" />
+            <img id='close' src="/public/admin/images/close.png" style="display:none;">
+        </div>
+        <div class="page__bd page__bd_spacing" id='sub' style='perspective: 500px;position:absolute;bottom:10px;'>
+            <a href="javascript:;" id="bottom" class="weui-btn weui-btn_plain-primary" style='background:url("/public/admin/images/submit.png") no-repeat 0 0;background-size:100% 100%;'></a>
+        </div>
+        <div class='ly' style='background:url("/public/admin/images/ly2.png") no-repeat 0 0;background-size:100% 100%;opacity:0.5;'>
+        </div>
+    </div>
+    <div id="toast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <p class="weui-toast__content" id='subSess'>提交成功</p>
+        </div>
+    </div>
+    <div class='mark' id='mark' style='background:url("/public/admin/images/bm.png") no-repeat 0 0;background-size:100% 100%;display:block;'>
+        <div class='markBottom'>
+
+        </div>
+    </div>
+</body>
+
+</html>
+<script>
+    $(function () {
+        // function getCookie(name) {
+        //     var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+
+        //     if (arr = document.cookie.match(reg))
+
+        //         return unescape(arr[2]);
+        //     else
+        //         return null;
+        // }
+        // function setCookie(name, value) {
+        //     var Days = 1;
+        //     var exp = new Date();
+        //     exp.setTime(exp.getTime() + Days * 32 * 60 * 60 * 1000);
+        //     document.cookie = name + "=" + escape(value) + ";expires=" + exp.toGMTString();
+        // }
+        // console.log(getCookie('layer'))
+        // if(getCookie('layer')){
+        //     $('#mark').css('display', 'none')
+        // }else{
+        //     $('#mark').css('display', 'block')
+        //     setCookie('layer','layer')
+           
+        // }
+        $('.markBottom').click(function (e) {
+            var ev = e || window.event;
+            ev.preventDefault;
+            $('#mark').css('display', 'none')
+        })
+        var Active = -1;
+        var institutions = '';
+        var sharequery = ''
+        var linkUrl = "http://gdtvact.weixinmvp.top/admin"
+        if (location.href.split('?')[1]) {
+
+            var active = location.href.split('?')[1].indexOf('network');
+            var soruce = location.href.split('?')[1].indexOf('line');
+
+            var mechanism = location.href.split('?')[1].indexOf('institutions');
+            if (active != -1) {
+                Active = 1
+                institutions = '线上'
+                sharequery = 'network'
+                $("#Btn").css('display', 'block')
+                $('.mark').css('background-image', 'url("/public/admin/images/xxbm.png?a=1")')
+
+
+                $('.container').css('background-image', 'url("/public/admin/images/ffwl.png?a=1")')
+
+                linkUrl = "http://gdtvact.weixinmvp.top/admin?active=1"
+
+            }
+            if (soruce != -1) {
+                institutions = '线下'
+                sharequery = 'line'
+                $('.container').css('background-image', 'url("/public/admin/images/ffxxia.png?a=1")')
+                $('.content').css('top', '12.2rem')
+                $('.content').css('left', '5.55rem')
+                $('.container').css('top', '-0.2rem')
+
+            }
+            if (mechanism != -1) {
+                institutions = '机构'
+                sharequery = 'institutions'
+                $('.container').css('background-image', 'url("/public/admin/images/bmb.png?a=1")')
+                $("#originName").css('display', 'block')
+            }
+        } else {
+            Active = -1
+            institutions = '线下'
+            $('.container').css('background-image', 'url("/public/admin/images/ffxxia.png?a=1")')
+            $('.content').css('top', '12.2rem')
+            $('.content').css('left', '5.55rem')
+            $('.container').css('top', '-0.2rem')
+            sharequery = 'line'
+        }
+        init_city_select($("#UserAddress"));
+        var AudioFlag = false;
+        var Audio = document.getElementById('audio')
+        var getStatus = function () {
+            AudioTimer = setInterval(function () {
+                if (Audio.readyState == 4) {
+                    AudioFlag = true
+                    clearInterval(AudioTimer)
+                    $('#start').css('display', 'none')
+                    $('#load').css('display', 'block')
+                } else {
+                    $('#start').html('加载中...')
+                    $('#start').css('display', 'block')
+                    $('#load').css('display', 'none')
+                }
+            }, 500)
+        }
+        $.ajax({
+            type: "get",
+            url: "server/getUserMess",
+            success: function (res) {
+                if (res.code) {
+                    $('#sub').css('display', "none")
+                    var data = res.data
+                    var a = data.second
+                    var aaa = data.second
+                    $('#start').css('display', 'none')
+                    $('#load').css('display', 'block')
+                    $('#ms').html(data.second + " ”")
+                    $("#UserName").val(data.userName)
+                    $("#UserAge").val(data.age)
+                    $("#UserAddress").val(data.address)
+                    $("#phone").val(data.phone)
+                    $("#originName").val(data.institutionsName)
+                    $("#storyName").val(data.storyName)
+                    $('#start').html('播放')
+                    $('#audio').attr('src', data.audioPath)
+                    if (Active != -1) {
+                        getStatus()
+                    }
+                    $('#Btn').click(function () {
+                        if (AudioFlag) {
+                            if (VideoFlag) {
+                                document.getElementById('audio').play()
+                                $('#start').css('display', 'none')
+                                VideoFlag = false
+                                var ImgFlag = true
+                                timer1 = setInterval(function () {
+                                    aaa--
+                                    if (ImgFlag) {
+                                        $('#img1').attr('src',
+                                            '/public/admin/images/white.png')
+                                    } else {
+                                        $('#img1').attr('src',
+                                            '/public/admin/images/bf.png'
+                                        )
+                                    }
+                                    ImgFlag = !ImgFlag
+                                    $('#ms').html(a + " ”")
+                                    if (aaa <= 0) {
+                                        clearInterval(timer1)
+                                        $('#img1').attr('src',
+                                            '/public/admin/images/bf.png')
+                                        $('#ms').html(a + " ”")
+                                        aaa = a
+                                        VideoFlag = true
+                                    }
+                                }, 1000)
+                            } else {
+                                VideoFlag = true
+                                clearInterval(timer1)
+                                document.getElementById('audio').pause()
+                                $('#start').css('display', 'none')
+                            }
+                        } else {
+                        }
+                    })
+
+                } else {
+                    // $('#mark').css('display', 'block')
+                    var VideoFlag = true;
+                    var lyfalg = true;
+                    var lytimre = null;
+                    var a = 0
+                    var time = null;
+                    var timer1 = null;
+                    var falg2 = true;
+                    var aaa = null;
+                    var Time = function () {
+                        var total = 60
+                        timer = setInterval(function () {
+                            var b = ((a++) / 60) * 100
+                            if (a == 59) {
+                                $('.ly').css('display', 'none')
+                                $('#start').css('display', 'none')
+                                $('#load').css('display', 'block')
+                                $('#close').css('display', 'block')
+                                clearInterval(lytimre)
+                                var close = document.getElementById('close');
+                                close.onclick = function () {
+                                    wx.stopVoice({
+                                        localId: url
+                                    });
+                                    a = 0
+                                    flag = true;
+                                    $('#start').css('display', 'block')
+                                    $('#load').css('display', 'none')
+                                    $('#close').css('display', 'none')
+                                }
+                                clearInterval(timer)
+                                $('#ms').html(a + " ”")
+                                aaa = a
+                                wx.stopRecord({
+                                    success: function (res) {
+                                        var data = res.localId;
+                                        url = data
+                                        flag = false
+                                        wx.uploadVoice({
+                                            localId: data, // 需要上传的音频的本地ID，由stopRecord接口获得
+                                            isShowProgressTips: 0, // 默认为1，显示进度提示
+                                            success: function (
+                                                res) {
+                                                localId
+                                                    =
+                                                    res
+                                                        .serverId; // 返回音频的服务器端ID
+                                                document
+                                                    .documentElement
+                                                    .removeEventListener(
+                                                        'touchend',
+                                                        dEnd,
+                                                        false
+                                                    )
+                                            }
+                                        });
+                                    }
+                                });
+                                clearInterval(timer)
+                            }
+                        }, 1000)
+                    }
+                    var localId = "";
+                    var flag = true;
+                    var url = null;
+                    $.ajax({
+                        type: "post",
+                        url: "server/getConfig",
+                        data: {
+                            url: location.href.split('#')[0]
+                        },
+                        success: function (res) {
+                            wx.config(res)
+                        }
+                    })
+                    wx.ready(function () {
+                        wx.onMenuShareTimeline({
+                            title: '中华好少年国学故事盛典报名表', // 分享标题
+                            link: "http://gdtvact.weixinmvp.top/share?origin="+sharequery, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                            imgUrl: 'http://gdtvact.weixinmvp.top/images/logo.png', // 分享图标
+                            success: function () {
+                                // 用户确认分享后执行的回调函数
+
+                            },
+                            cancel: function () {
+                                // 用户取消分享后执行的回调函数
+                            }
+                        });
+                        wx.onMenuShareAppMessage({
+                            title: '中华好少年国学故事盛典报名表', // 分享标题
+                            desc: '2018广东公共频道贝塔故事,重磅打造国学故事盛典，等你来报名哦!', // 分享描述
+                            link: "http://gdtvact.weixinmvp.top/share?origin="+sharequery, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                            imgUrl: 'http://gdtvact.weixinmvp.top/images/logo.png', // 分享图标
+                            type: '', // 分享类型,music、video或link，不填默认为link
+                            dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                            success: function () {
+                                // 用户确认分享后执行的回调函数
+                            },
+                            cancel: function () {
+                                // 用户取消分享后执行的回调函数
+                            }
+                        });
+                        var Btn = document.getElementById('Btn');
+                        Btn.addEventListener('touchstart', function (ev) {
+                            ev.preventDefault()
+                            if (flag) {
+                                Time()
+                                lytimre = setInterval(function () {
+                                    if (lyfalg) {
+                                        $('.ly').css('display', 'block')
+                                        $('.ly').css('background-image',
+                                            'url("/public/admin/images/ly.png")'
+                                        )
+                                        lyfalg = false;
+                                    } else {
+                                        lyfalg = true
+                                        $('.ly').css('display', 'block')
+                                        $('.ly').css('background-image',
+                                            'url("/public/admin/images/ly2.png")'
+                                        )
+                                    }
+                                }, 500)
+                                wx.startRecord();
+                                document.documentElement.addEventListener(
+                                    'touchend', dEnd, false)
+
+                                function dEnd() {
+                                    $('.ly').css('display', 'none')
+                                    $('#start').css('display', 'none')
+                                    $('#load').css('display', 'block')
+                                    $('#close').css('display', 'block')
+                                    clearInterval(lytimre)
+                                    var close = document.getElementById('close');
+                                    close.onclick = function () {
+                                        wx.stopVoice({
+                                            localId: url
+                                        });
+                                        a = 0
+                                        flag = true;
+                                        $('#start').css('display', 'block')
+                                        $('#load').css('display', 'none')
+                                        $('#close').css('display', 'none')
+                                    }
+                                    clearInterval(timer)
+                                    $('#ms').html(a + " ”")
+                                    aaa = a
+                                    wx.stopRecord({
+                                        success: function (res) {
+                                            var data = res.localId;
+                                            url = data
+                                            flag = false
+                                            wx.uploadVoice({
+                                                localId: data, // 需要上传的音频的本地ID，由stopRecord接口获得
+                                                isShowProgressTips: 0, // 默认为1，显示进度提示
+                                                success: function (
+                                                    res) {
+                                                    localId
+                                                        =
+                                                        res
+                                                            .serverId; // 返回音频的服务器端ID
+                                                    document
+                                                        .documentElement
+                                                        .removeEventListener(
+                                                            'touchend',
+                                                            dEnd,
+                                                            false
+                                                        )
+                                                }
+                                            });
+                                        }
+                                    });
+                                }
+                            } else {
+                                if (falg2) {
+                                    var that = this
+                                    wx.playVoice({
+                                        localId: url
+                                    });
+                                    var ImgFlag = true
+                                    timer1 = setInterval(function () {
+                                        aaa--
+                                        if (ImgFlag) {
+                                            $('#img1').attr('src',
+                                                '/public/admin/images/white.png')
+                                        } else {
+                                            $('#img1').attr('src',
+                                                '/public/admin/images/bf.png'
+                                            )
+                                        }
+                                        ImgFlag = !ImgFlag
+                                        $('#ms').html(a + " ”")
+                                        if (aaa == 0) {
+                                            clearInterval(timer1)
+                                            $('#img1').attr('src',
+                                                '/public/admin/images/bf.png')
+                                            $('#ms').html(a + " ”")
+                                            aaa = a
+                                        }
+                                    }, 1000)
+                                    falg2 = false;
+                                } else {
+                                    wx.pauseVoice({
+                                        localId: url
+                                    });
+                                    clearInterval(timer1)
+                                    falg2 = true;
+                                }
+                            }
+                        }, false)
+                        $("#sotp").click(function () {
+                            wx.stopRecord({
+                                success: function (res) {
+                                    var data = res.localId;
+                                    $('#play').attr('id', data)
+                                    wx.uploadVoice({
+                                        localId: data, // 需要上传的音频的本地ID，由stopRecord接口获得
+                                        isShowProgressTips: 1, // 默认为1，显示进度提示
+                                        success: function (res) {
+                                            localId = res.serverId; // 返回音频的服务器端ID
+                                        }
+                                    });
+                                }
+                            });
+                        })
+                    })
+
+                    $("#bottom").click(function () {
+                        $('#bottom').css('animation', 'move 1s')
+                        setTimeout(function () {
+                            $('#bottom').css('animation', '')
+                        }, 1000)
+                        var $UserName = $("#UserName").val()
+                        var $UserAge = $("#UserAge").val()
+                        var $UserAddress = $("#UserAddress").val()
+                        var $UserPhone = $("#phone").val()
+                        var $storyName = $("#storyName").val()
+                        var $institutionsName = $("#originName").val()
+                        var IN = true;
+                        var second = a
+                        function yz() {
+                            if (!$UserName) {
+                                $('.container').toast({
+                                    content: '用户名不能为空',
+                                    duration: 1000
+                                });
+                                return
+                            }
+                            if (!$UserAge) {
+                                $('.container').toast({
+                                    content: '年龄不能为空',
+                                    duration: 1000
+                                });
+
+
+                                return
+
+                            }
+                            if (!$UserAddress) {
+
+                                $('.container').toast({
+                                    content: '地址不能为空',
+                                    duration: 1000
+                                });
+
+                                return
+
+                            }
+                            if (!$UserPhone) {
+
+                                $('.container').toast({
+                                    content: '联系方式不能为空',
+                                    duration: 1000
+                                });
+                                return
+
+                            }
+                            if (!$storyName) {
+
+                                $('.container').toast({
+                                    content: '故事名称不能为空',
+                                    duration: 1000
+                                });
+                                return
+
+                            }
+                            if (institutions == '机构') {
+                                if (!$institutionsName) {
+                                    $('.container').toast({
+                                        content: '机构名称不能为空',
+                                        duration: 1000
+                                    });
+                                    IN = false;
+                                    return
+
+                                }
+                            }
+                        }
+                        yz()
+
+                        if ($UserName && $UserAge && $UserAddress && $UserPhone &&
+                            $storyName && IN) {
+                            if (Active == -1) {
+                                var patt = /^1\d{10}$/;
+                                var result = patt.exec($UserPhone);
+                                if (result) {
+
+                                    var param = {
+                                        'UserName': $UserName,
+                                        'UserAge': $UserAge,
+                                        'UserAddress': $UserAddress,
+                                        'UserPhone': $UserPhone,
+                                        'localId': localId,
+                                        'storyName': $storyName,
+                                        'second': second,
+                                        "institutions": institutions
+                                    }
+
+                                    if (institutions == '机构') {
+                                        param.institutionsName = $institutionsName
+                                    }
+
+                                    $.ajax({
+                                        type: 'POST',
+                                        url: 'server/submitMessage',
+                                        data: param,
+                                        success: function (res) {
+                                            $('.container').toast({
+                                                content: res,
+                                                duration: 1000
+                                            });
+                                        }
+                                    });
+                                } else {
+                                    $('.container').toast({
+                                        content: '手机格式错误',
+                                        duration: 1000
+                                    });
+                                }
+                            } else {
+                                if (!localId) {
+                                    $('.container').toast({
+                                        content: '请上传录音',
+                                        duration: 1000
+                                    });
+                                } else {
+                                    var patt = /^1\d{10}$/;
+                                    var result = patt.exec($UserPhone);
+                                    if (result) {
+                                        var param = {
+                                            'UserName': $UserName,
+                                            'UserAge': $UserAge,
+                                            'UserAddress': $UserAddress,
+                                            'UserPhone': $UserPhone,
+                                            'localId': localId,
+                                            'storyName': $storyName,
+                                            'second': second,
+                                            "institutions": institutions
+                                        }
+                                        $.ajax({
+                                            type: 'POST',
+                                            url: 'server/submitMessage',
+                                            data: param,
+                                            success: function (res) {
+                                                $('.container').toast({
+                                                    content: res,
+                                                    duration: 1000
+                                                });
+                                            }
+                                        });
+                                    } else {
+                                        $('.container').toast({
+                                            content: '手机格式错误',
+                                            duration: 1000
+                                        });
+                                    }
+                                }
+                            }
+
+                        }
+                    })
+                }
+            }
+        })
+
+    })
+</script>

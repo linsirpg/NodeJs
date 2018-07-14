@@ -1,0 +1,130 @@
+.container {
+  width: 100%;
+  height: 28.45866667rem;
+  position: relative;
+}
+.container .content {
+  width: 8.96rem;
+  height: 14.82666667rem;
+  position: relative;
+  top: 10.24rem;
+  left: 5.44rem;
+}
+.container .content input {
+  background-color: white;
+  border-radius: 4px;
+  font-size: 14px;
+  text-indent: 1em;
+}
+.container .content #UserName {
+  height: 1.49333333rem;
+}
+.container .content #UserAge {
+  margin-top: 1.06666667rem;
+  height: 1.49333333rem;
+}
+.container .content #UserAddress {
+  margin-top: 1.06666667rem;
+  height: 1.49333333rem;
+}
+.container .content #phone {
+  margin-top: 1.06666667rem;
+  height: 1.49333333rem;
+}
+.container .content #storyName {
+  height: 1.49333333rem;
+  margin-top: 1.06666667rem;
+}
+.container .content #Btn {
+  background: white;
+  border: 0px;
+  height: 1.49333333rem;
+  margin-top: 0.93866667rem;
+  color: #ccc;
+}
+.container .content #originName {
+  height: 1.49333333rem;
+  margin-top: 0.93866667rem;
+  display: none;
+}
+.container #bottom {
+  width: 14.08rem;
+  position: absolute;
+  left: 0.96rem;
+  bottom: 0.29866667rem;
+  height: 2.73066667rem;
+  border-radius: 2.13333333rem;
+  outline: 0;
+  border: 0px;
+  font-size: inherit;
+  color: inherit;
+  line-height: 1.47058824;
+}
+.container .ly {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 28.45866667rem;
+  display: none;
+}
+#slide {
+  top: 4.26666667rem;
+  display: none;
+}
+#start {
+  height: 1.49333333rem;
+  line-height: 1.49333333rem;
+}
+#load {
+  text-align: left;
+  height: 1.49333333rem;
+  line-height: 1.49333333rem;
+}
+#load span {
+  display: inline-block;
+  width: 40px;
+  text-align: center;
+  position: relative;
+  top: -0.17066667rem;
+}
+#load #img1 {
+  position: relative;
+  top: 0.128rem;
+  width: 0.704rem;
+  height: 1.13066667rem;
+}
+#close {
+  position: relative;
+  padding: 10px;
+  top: -1.62133333rem;
+  z-index: 10;
+  right: -0.21333333rem;
+  float: right;
+}
+.provinceCityAll {
+  left: 0;
+}
+.name {
+  top: 7.04rem;
+  width: 50%;
+  letter-spacing: 0.21333333rem;
+  text-align: center;
+  left: 25%;
+}
+.mark {
+  width: 100%;
+  height: 28.45866667rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+.mark .markBottom {
+  width: 13.65333333rem;
+  height: 2.56rem;
+  position: absolute;
+  top: 20.43733333rem;
+  z-index: 10001;
+  left: 1.70666667rem;
+}
