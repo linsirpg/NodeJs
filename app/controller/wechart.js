@@ -1,29 +1,22 @@
 'use strict';
 const Controller = require('egg').Controller;
 const request = require('request');
+
+// 在控制器的使用方法 var UserInfo = await ctx.service.wxchart.getUserInfo(wxConfig); UserInfo 即为用户信息
+
 class WxConfigController extends Controller {
     async getWxConfig(ctx) {
-        console.log(ctx.req.headers.referer)
         let Code = ctx.req.headers.referer.split("code=")[1].split('&')[0];
-        console.log(Code)
         var WxConfigUrl = '';
-        if(ctx.req.headers.referer.split('#')[0]){
+        if (ctx.req.headers.referer.split('#')[0]) {
             WxConfigUrl = ctx.req.headers.referer.split('#')[0]
-        }else{
+        } else {
             WxConfigUrl = ctx.req.headers.referer
         }
-        let wxConfig = await this.app.mysql.get('wx_config', {
-            "RECID": 8
-        })
+        let wxConfig = await ctx.service.wxchart.getWxInfo(8);
         let ret = {};
-        console.log(wxConfig)
-        request.get(`https://api.weixin.qq.com/sns/oauth2/access_token?appid=${wxConfig.APP_ID}&secret=${wxConfig.APP_SECRET}&code=${Code}&grant_type=authorization_code`, function optionalCallback(err, httpResponse, body) {
-            var Acc = JSON.parse(body).access_token
-            var AppI = JSON.parse(body).openid
-            request.get(`https://api.weixin.qq.com/sns/userinfo?access_token=${Acc}&openid=${AppI}&lang=zh_CN`, function optionalCallback(err, httpResponse, body) {
-                console.log(body)
-            })
-        })
+        var UserInfo = await ctx.service.wxchart.getUserInfo(wxConfig);
+        console.log(UserInfo, 1212)
         var createNonceStr = function () {
             return Math.random().toString(36).substr(2, 15);
         };
@@ -55,7 +48,7 @@ class WxConfigController extends Controller {
             var sha1 = require("sha1")
             return sha1(string);
         };
-        var mySignature = sign(wxConfig.JS_TICKET_VALUE,WxConfigUrl)
+        var mySignature = sign(wxConfig.JS_TICKET_VALUE, WxConfigUrl)
         var obj = {}
         obj.debug = false;
         obj.timestamp = ret.timestamp;
@@ -66,18 +59,14 @@ class WxConfigController extends Controller {
         return ctx.body = obj
     }
     // 用户授权登录
-    async UserAccredit (ctx) {
-        let wxConfig = await this.app.mysql.get('wx_config', {
-            "RECID": 8
-        })
-        console.log(wxConfig.APP_ID);
+    async UserAccredit(ctx) {
+        console.log(ctx.query.ScopeStatus)
+        let wxConfig = await ctx.service.wxchart.getWxInfo(8);
         let APPID = wxConfig.APP_ID;;
-        // let REDIRECT_URI = encodeURIComponent(ctx.req.headers.referer)
-        let REDIRECT_URI = encodeURIComponent('http://test.linrains.com/public/1.html');
-        let scope = true ? 'snsapi_base' : 'snsapi_userinfo';
-        let STATE ='';
-        console.log(ctx.req.headers.referer)
-        var OpenUrl =`https://open.weixin.qq.com/connect/oauth2/authorize?appid=${APPID}&redirect_uri=${REDIRECT_URI}&response_type=code&scope=${scope}&state=${STATE}#wechat_redirect`
+        let REDIRECT_URI = encodeURIComponent(ctx.query.Url);
+        let scope = ctx.query.ScopeStatus ? 'snsapi_base' : 'snsapi_userinfo';
+        let STATE = '';
+        var OpenUrl = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${APPID}&redirect_uri=${REDIRECT_URI}&response_type=code&scope=${scope}&state=${STATE}#wechat_redirect`
         return ctx.body = OpenUrl
     }
 }

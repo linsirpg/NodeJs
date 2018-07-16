@@ -8,9 +8,7 @@ class HomeController extends Controller {
 
   async index(ctx) {
 
-    const wxconfig = await this.app.mysql.get('wx_config', {
-      "RECID": 8
-    })
+    let wxConfig =  await ctx.service.wxchart.getWxInfo(8);
 
     const token = wxconfig.INTERFACE_TOKEN;
 
