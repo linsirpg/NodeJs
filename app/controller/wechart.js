@@ -13,10 +13,13 @@ class WxConfigController extends Controller {
         } else {
             WxConfigUrl = ctx.req.headers.referer
         }
+        
         let wxConfig = await ctx.service.wxchart.getWxInfo(8);
+
         let ret = {};
-        var UserInfo = await ctx.service.wxchart.getUserInfo(wxConfig);
-        console.log(UserInfo, 1212)
+
+        // var UserInfo = await ctx.service.wxchart.getUserInfo(wxConfig);
+        
         var createNonceStr = function () {
             return Math.random().toString(36).substr(2, 15);
         };
@@ -60,9 +63,8 @@ class WxConfigController extends Controller {
     }
     // 用户授权登录
     async UserAccredit(ctx) {
-        console.log(ctx.query.ScopeStatus)
         let wxConfig = await ctx.service.wxchart.getWxInfo(8);
-        let APPID = wxConfig.APP_ID;;
+        let APPID = wxConfig.APP_ID;
         let REDIRECT_URI = encodeURIComponent(ctx.query.Url);
         let scope = ctx.query.ScopeStatus ? 'snsapi_base' : 'snsapi_userinfo';
         let STATE = '';

@@ -1,7 +1,7 @@
 'use strict'
 const Service = require('egg').Service;
 const request = require('request');
-class UserService extends Service {
+class wcChartService extends Service {
 
   async getWxInfo (RECID) {
     // 获取微信公众号的数据
@@ -47,7 +47,7 @@ class UserService extends Service {
     return UserInfo
   }
 }
-module.exports = UserService;
+module.exports = wcChartService;
 
 // 在控制器的使用方法 var UserInfo = await ctx.service.wxchart.getUserInfo(wxConfig); UserInfo 即为用户信息
 // 在控制器的使用方法 var WxInfo = await ctx.service.wxchart.getWxInfo(wxConfig); UserInfo 即为用户信息

@@ -4,13 +4,13 @@ const sha1 = require('sha1');
 
 const Controller = require('egg').Controller;
 
-class HomeController extends Controller {
+class MiniProgramController extends Controller {
 
   async index(ctx) {
 
     let wxConfig =  await ctx.service.wxchart.getWxInfo(8);
 
-    const token = wxconfig.INTERFACE_TOKEN;
+    const token = wxConfig.INTERFACE_TOKEN;
 
     const signature = ctx.query.signature;
 
@@ -46,4 +46,4 @@ class HomeController extends Controller {
 
   }
 }
-module.exports = HomeController;
+module.exports = MiniProgramController;
