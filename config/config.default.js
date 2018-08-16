@@ -25,14 +25,14 @@ module.exports = appInfo => {
   config.security = {
     csrf: {
       enable: false,
-      ignoreJSON: false, // 默认为 false，当设置为 true 时，将会放过所有 content-type 为 `application/json` 的请求
+      // ignoreJSON: false, // 默认为 false，当设置为 true 时，将会放过所有 content-type 为 `application/json` 的请求
     },
-    domainWhiteList: [ 'http://localhost:8081' ],
+    // domainWhiteList: [ 'http://localhost:8080' ],
   };
-  config.cors = {
-    allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH,OPTIONS',
-    credentials: true
-  };
+  // config.cors = {
+  //   allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH,OPTIONS',
+  //   credentials: true
+  // };
   // use for cookie sign key, should change to your own and keep security
   config.keys = appInfo.name + '_1526951829703_8487';
   // add your config here

@@ -11,7 +11,12 @@ module.exports = app => {
   router.get('/getWxConfig',wechart,controller.wechart.getWxConfig);
   router.get('/UserAccredit',wechart,controller.wechart.UserAccredit);
   router.get('/test',controller.miniProgram.test);
+
   router.post('/api/Advert/LoadAdvertList', controller.gdtvshop.getHomeAdverData);
+  router.post('/api/Product/LoadProductByCate', controller.gdtvshop.getLoadProductByCate);
+  
+
+  
 };
 
 
