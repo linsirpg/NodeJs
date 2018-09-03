@@ -13,5 +13,9 @@ class gdtvshopController extends Controller {
         let ProductByCateData = await ctx.service.gdtvshop.getLoadProductByCate(ctx.request.body);
         this.ctx.body = ProductByCateData;
     }    
+    async LoadCateGroup(ctx) {
+        let ProductList = await ctx.service.gdtvshop.LoadCateGroup(ctx.request.body)
+        this.ctx.body = ProductList
+    }
 }
 module.exports = gdtvshopController;

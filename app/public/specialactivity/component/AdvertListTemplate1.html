@@ -1,0 +1,17 @@
+<!-- 广告1 -->
+
+<div ng-if="Data.Data.length">
+    <a class="img-container" href="{{Data.Data[0].Url}}" ng-if="Data.Data.length === 1" ng-click="$statistics.click(Item.Title)">
+        <img ng-src="{{Data.Data[0].Image.Thumb}}" ng-alt="{{Data.Data[0].Title}}">
+    </a>
+    <div class="banner-container swiper-container" ng-if="Data.Data.length > 1">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide" ng-repeat="Item in Data.Data" on-finish-render-filters="swiperInit">
+                <a class="img-container" href="{{Item.Url}}" ng-click="$statistics.click(Item.Title)">
+                    <img ng-src="{{Item.Image.Thumb}}" ng-alt="{{Item.Title}}">
+                </a>
+            </div>
+        </div>
+        <div class="swiper-pagination"></div>
+    </div>
+</div>

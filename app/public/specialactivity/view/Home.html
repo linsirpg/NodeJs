@@ -1,0 +1,83 @@
+<div class="home">
+
+  <!-- banner -->
+  <div ng-if="Special.ThumbnailBanner.length" banner="Special.ThumbnailBanner"></div>
+
+  <!-- 推荐 -->
+  <div class="recomment">
+    <div product-list ng-if="Special.Recomment" data-data="Special.Recomment" data-statistics="$RecommenStatisticst"></div>
+  </div>
+
+  <!-- 广告 -->
+  <div class="advert">
+    <div ng-if="Special.Advert" advert-list data-data="Special.Advert" data-statistics="$AdvertStatisticst"></div>
+  </div>
+
+
+  <!-- 限量 -->
+  <div class="quantity">
+    <div quantity ng-if="Special.Limited" data-data="Special.Limited" data-statistics="$RecommenStatisticst"></div>
+  </div>
+
+
+  <!-- 楼层 -->
+  <div ng-if="floor.data.length" name='floor' id='floor'>
+
+    <div class="floor-container-placeholder" ng-if="floor.data.length > 1">
+      <div class="floor-container swiper-container" ng-class="{'floor-mode-more': floor.moreMode, 'floor-fixed': floor.fixedStatus}">
+        <div class="swiper-wrapper" ng-class="['floor-item-length-'+floor.dataLength]">
+          <div class="floor-item swiper-slide" ng-style="{width:floor.dataWidth[$index]}" ng-repeat="item in floor.data" ng-class="{'floor-item-active': floor.index===$index}"
+            ng-click="floor.onclick($index, item)" on-finish-render-filters="floor.init">
+            <span>{{item.Title}}</span>
+          </div>
+        </div>
+        <div class="more" ng-if="floor.moreMode" ng-click="floor.updateMore()">
+          <i class="fa fa-chevron-down"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="floor-container-more" ng-if="floor.moreStatus && floor.fixedStatus">
+      <div class="container-box">
+        <div class="title">
+          <span>切换楼层</span>
+          <div class="more" ng-click="floor.updateMore()">
+            <i class="fa fa-chevron-up"></i>
+          </div>
+        </div>
+        <div class="box">
+          <div class="item" ng-repeat="item in floor.data" ng-class="{'active': floor.index===$index}">
+            <span ng-click="floor.onclick($index, item)">{{item.Title}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="floor-list" ng-class="['floor-list-' + $index, 'floor-' + $index]" ng-repeat="item in floor.data">
+      <div product-list data-data="item" data-statistics="item.$ProductStatisticst"></div>
+    </div>
+  </div>
+
+
+  <div class="suspension-operation">
+    <a href="javascript:void(0);" ng-click="ontop()" ng-show="gotopShow">
+      <i class="fa fa-arrow-up"></i>
+    </a>
+    <a href="https://gdtvshop.weixinmvp.com/wap/Shop/">
+      <i class="fa fa-home"></i>
+    </a>
+  </div>
+
+  <p class="fooder">本活动最终解释权归DV生活商城所有</p>
+  <div style='position: absolute;top:13.93rem;left:7.5rem;z-index:100;width:1rem;height:1rem;' ng-if= 'LcFlage' ng-click="notide11($event)">
+    <img src="imgs/notide2.png" alt="" style='width:.5rem;height:.5rem;margin-top:.25rem;margin-left:.25rem;'  >
+  </div>
+  <img src="imgs/notide1.png" alt="" style='width:5.214285714285714rem;height:2.2857142857142856rem;position:absolute;left:4.73rem;top:11.842857142857142rem;' ng-if= 'notide1'>
+
+  <div style='position: absolute;top:19.58rem;left:2.15rem;z-index:100;width:1rem;height:1rem; ' ng-if= 'LcFlage' ng-click="notide22($event)">
+    <img src="imgs/notide2.png" alt="" style='width:.5rem;height:.5rem;margin-top:.25rem;margin-left:.25rem;'>
+  </div>
+  <img src="imgs/notide3.png" alt="" style='width:5.214285714285714rem;height:2.2857142857142856rem;position:absolute;left:0.21rem;top:17.442857142857142rem;' ng-if= 'notide2'>
+</div>
+<script>  
+</script>

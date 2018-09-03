@@ -14,7 +14,11 @@ module.exports = app => {
 
   router.post('/api/Advert/LoadAdvertList', controller.gdtvshop.getHomeAdverData);
   router.post('/api/Product/LoadProductByCate', controller.gdtvshop.getLoadProductByCate);
-  
+  router.post('/api/Product/LoadCateGroup', controller.gdtvshop.LoadCateGroup);
+
+
+  router.post('/api/Activity/GetSpecialActivity', controller.getspecialactivity.getspecialactivity);
+  router.post('/api/Product/GetReferenceProductList', controller.getspecialactivity.GetReferenceProductList);
 
   
 };

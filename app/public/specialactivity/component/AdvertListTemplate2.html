@@ -1,0 +1,11 @@
+<!-- 一列 -->
+<div class="advert-list-template2">
+    <div ng-repeat="Item in Data.Data">
+        <a class="img-container" href="{{Item.Url}}" ng-if='Item.Url'  ng-click="$statistics.click(Item.Title)">
+            <img ng-src="{{Item.Image.Thumb}}" ng-alt="{{Item.Title}}">
+        </a>
+        <a class="img-container" ng-if='!Item.Url' ng-click="MoveToFloor()">
+            <img ng-src="{{Item.Image.Thumb}}" ng-alt="{{Item.Title}}" >
+        </a>
+    </div>
+</div>

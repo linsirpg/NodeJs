@@ -1,0 +1,18 @@
+
+<!-- Banner 轮播 -->
+
+<div ng-if="Banner.length">
+    <a class="img-container" href="{{Banner[0].Url}}" ng-if="Banner.length === 1">
+        <img ng-src="{{Banner[0].Image.Thumb}}" ng-alt="{{Banner[0].Title}}">
+    </a>
+    <div class="banner-container swiper-container" ng-if="Banner.length > 1">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide" ng-repeat="Item in Banner" on-finish-render-filters="bannerSwiperInit">
+                <a  class="img-container" href="{{Item.Url}}">
+                    <img ng-src="{{Item.Image.Thumb}}" ng-alt="{{Item.Title}}">
+                </a>
+            </div>
+        </div>
+        <div class="swiper-pagination"></div>
+    </div>
+</div>

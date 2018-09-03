@@ -1,0 +1,68 @@
+﻿
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<title>DV.生活商城,正品保证</title>
+	<link rel="stylesheet" href="../assets/plugins/swiper/swiper-3.4.2.min.css">
+	<link rel="stylesheet" type="text/css" href="../assets/plugins/lib-flexible/flexible.css">
+	<link rel="stylesheet" type="text/css" href="../assets/plugins/font-awesome-4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="css/index.css?v=1">
+	<style>{{Special.Style}}</style>
+	<script src="../assets/plugins/lib-flexible/flexible.js"></script>
+	<script>
+		var _hmt = _hmt || [];
+		(function () {
+			var hm = document.createElement("script");
+			hm.src = "//hm.baidu.com/hm.js?290e7b3ea81e18569ee34cb9d775cb90";
+			var s = document.getElementsByTagName("script")[0];
+			s.parentNode.insertBefore(hm, s);
+		})();
+	</script>
+</head>
+<body>
+	<div ui-view style="width:100%;height:100%;"></div>
+    <script src="../assets/plugins/jquery/jquery-1.10.2.min.js"></script>
+	<script src="../assets/plugins/swiper/swiper-3.4.2.min.js" type="text/javascript"></script>
+	<script src="../assets/plugins/angular/angular-1.6.1.min.js" type="text/javascript"></script>
+	<script src="../assets/plugins/angular/angular-ui-router.min.js" type="text/javascript"></script>
+	<script type="text/javascript" src="script/app.js?v=1"></script>
+	<script type="text/javascript">
+		var Statistics = (function () {
+			function Statistics(path) {
+				this.path = path || '';
+			}
+			Statistics.hmt = [];
+			Statistics.prototype.of = function (path) {
+				var selfPathArr = this.path.split('|');
+				selfPathArr.push.apply(selfPathArr, path.split('|'));
+				return new Statistics(selfPathArr.join('|'));
+			};
+			Statistics.prototype.click = function (item) {
+				var j = ['_trackEvent', this.path, 'click', item];
+				Statistics.hmt.push(j);
+				return _hmt.push(['_trackEvent', this.path, 'click', item])
+			};
+			return Statistics;
+		})();
+		app.run(['$rootScope', '$log','$state', function ($rootScope) {
+			var mark = '180312specialactivity';
+			var id = null;
+			$rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){
+				id = toParams.id;
+				$rootScope.$Statistics = new Statistics(mark).of('home').of(id);
+				
+				var path = mark + '|home|' + id + '|' + document.URL + '|' + document.referrer;
+				_hmt.push(['_trackEvent', path, 'enter', mark + '|home|' + id]);
+				_hmt.push(['_trackEvent', 'page', 'view', mark + '|home|' + id]);
+
+			});
+		}]);
+	</script>
+	<script type="text/javascript" src="script/component.js?v=11"></script>
+	<script type="text/javascript" src="script/directive.js?v=11"></script>
+	<script type="text/javascript" src="script/service.js?v=11"></script>
+	<script type="text/javascript" src="script/controllers.js?v=13"></script>
+</body>
+</html>

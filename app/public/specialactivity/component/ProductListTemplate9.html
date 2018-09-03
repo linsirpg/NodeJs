@@ -1,0 +1,41 @@
+
+<!-- 两列 -->
+
+<div class="product-list-template9 product-list-template3 product-list-template1">
+
+        <div ng-if="Data.Banner.length" banner="Data.Banner"></div>
+    
+        <div ng-if="Data.Advert" advert-list data-data="Data.Advert" data-statistics="$advertStatistics"></div>
+    
+        <div class="product-list" ng-if="!Data.List.length">
+            <a href="javascript:;" class="product-item" ng-repeat="Item in [1,2,3,4,5,6]">
+                <div class="cover" style="background: #eeeeee;">
+                    <img ng-src="./imgs/product_list_template1/login_cover.png">
+                </div>
+                <p>
+                    <span style="display: block; margin-top: .1rem; line-height: initial; color: #eeeeee; background: #eeeeee; width: 50%">产品信息</span>
+                </p>
+                <p>
+                    <span style="display: block; margin-top: .1rem; line-height: initial; color: #eeeeee; background: #eeeeee; width: 90%">产品信息</span>
+                </p>
+            </a>
+        </div>
+    
+        <div class="product-list">
+            <a href="{{Item.Url}}" class="product-item" ng-repeat="Item in Data.List" ng-click="$productStatistics.click(Item.ProductNo)">
+                <div class="cover">
+                    <img ng-if="Item.ProductBanner[0]" ng-src="{{Item.ProductBanner[0].Image.Thumb}}" ng-alt="{{Item.ProductName}}">
+                </div>
+                <div class="label" ng-if="Item.PromotionTagText">
+                    <img ng-src="./imgs/product_list_template5/label/{{Item.PromotionTag}}.png" ng-alt="{{Item.PromotionTagText}}">
+                </div>
+                <h6>{{Item.ProductName}}</h6>
+                <p class="sale"><i>￥</i><span>{{Item.SalePrice}}</span></p>
+                <div class="tianjia">
+                    <img src="./imgs/product_list_template1/slgsbtn.png" alt="" style="margin-right:20px;">
+                </div>
+            </a>
+    
+        </div>
+    
+    </div>

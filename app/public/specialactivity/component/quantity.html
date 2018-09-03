@@ -1,0 +1,36 @@
+<div class="quantiy-list">
+  <div ng-if="Data.Banner.length" banner="Data.Banner"></div>
+  
+  <div ng-if="Data.Limited" advert-list data-data="Data.Limited" data-statistics="$limitedQuantity"></div>
+  
+  <a class="quantiy-box" href="{{Item.Url}}" ng-repeat="Item in Data.List">
+    <div class="clearfloat">
+      <div class="img-box">
+        <img ng-src="{{Item.ProductBanner[0].Image.Thumb}}" alt="">
+      </div>
+      <div class="descrie">
+        <div class="describe-title">{{Item.ProductName}}</div>
+        <div class="pir-describe">{{Item.ShortDesc}}</div>
+        <!-- 进度条 -->
+        <div class="progress">
+          <div class="pro-bar">
+            <span style="width:{{Item.Param2?(Item.Param2-Item.SaleCount)/Item.Param2*100:0}}%"></span>
+          </div>
+          <div class="pir-num" ng-if="Item.Param2 && Item.Param2-Item.SaleCount">(剩余
+            <span>{{Item.Param2?Item.Param2-Item.SaleCount:0}}</span>件)
+          </div>
+
+          <div class="pir-num" ng-if="!Item.Param2 || !(Item.Param2-Item.SaleCount)">
+            <span>已抢光</span>
+          </div>
+        </div>
+        <!-- 价格 -->
+        <div class="pirce">
+          店庆价 ：
+          <span>￥</span>
+          <span>{{Item.SalePrice}}</span>
+        </div>
+      </div>
+    </div>
+  </a>
+</div>

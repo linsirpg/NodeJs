@@ -1,0 +1,25 @@
+
+
+<!-- 一排3列 滑动 -->
+
+<div class="product-list-template7" ng-if="Data.List.length">
+
+    <div ng-if="Data.Banner.length" banner="Data.Banner"></div>
+
+    <div ng-if="Data.Advert" advert-list data-data="Data.Advert" data-statistics="$advertStatistics"></div>
+
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide" ng-repeat="Item in Data.List" on-finish-render-filters="swiperInit">
+                <a href="{{Item.Url}}" class="product-item" ng-click="$productStatistics.click(Item.ProductNo)">
+                    <h6>{{Item.ProductName}}</h6>
+                    <p>{{Item.ShortDesc}}</p>
+                    <div class="cover">
+                        <img ng-if="Item.ProductBanner[0]" ng-src="{{Item.ProductBanner[0].Image.Thumb}}" ng-alt="{{Item.ProductName}}">
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="swiper-pagination"></div>
+    </div>
+</div>
