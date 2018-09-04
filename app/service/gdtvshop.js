@@ -112,8 +112,10 @@ class gdtvshopService extends Service {
             var ProducSkuMess = await this.ctx.app.mysql.get('shop_sku_product', {
                 'PRODUCT_NO': LoadProductByCateData[i].PRODUCT_NO,
             })
+            if(ProducSkuMess){
                 LoadProductByCateData[i].SALE_PRICE = ProducSkuMess.SALE_PRICE
                 LoadProductByCateData[i].MARKET_PRICE = ProducSkuMess.MARKET_PRICE
+            }
         }
         LoadProductByCateData.map(async function (item) {
             var obj = {
@@ -127,6 +129,7 @@ class gdtvshopService extends Service {
                 "MarketPrice":'',
                 "Status":'',
             }
+            console.log(item)
             var obj = {}
                 obj.ProductNo = item.PRODUCT_NO;
                 obj.ProductName = item.PRODUCT_NAME;
@@ -141,6 +144,18 @@ class gdtvshopService extends Service {
             ResultObj.Data[ctx.TypeId].push(obj)
         })        
         return ResultObj;        
+    }
+    async getLoadAdvertPoistion(ctx){
+        let ResultObj = {
+            "ErrorCode": 0,
+            "ErrorMessage": "ok",
+            "Data": {}
+        }        
+        var PositionMess = await this.ctx.app.mysql.get('cms_advert_position', {
+            'ADVERT_CODE': ctx,
+        })
+        ResultObj.Data = PositionMess
+        return ResultObj;
     }
 }
 module.exports = gdtvshopService;

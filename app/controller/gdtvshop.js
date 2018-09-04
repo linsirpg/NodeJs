@@ -17,5 +17,10 @@ class gdtvshopController extends Controller {
         let ProductList = await ctx.service.gdtvshop.LoadCateGroup(ctx.request.body)
         this.ctx.body = ProductList
     }
+    async getLoadAdvertPoistion(ctx) {
+        let ProductList = await ctx.service.gdtvshop.getLoadAdvertPoistion(ctx.request.url.split('?')[1].split('=')[1])
+        this.ctx.body = ProductList 
+        // this.ctx.body = '1212'
+    }
 }
 module.exports = gdtvshopController;
